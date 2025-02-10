@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { WeatherComponent } from "../../components/weather/weather.component";
+import { ReminderService } from '../../services/reminder.service.';
 
 @Component({
   selector: 'app-dashboard',
@@ -8,5 +9,5 @@ import { WeatherComponent } from "../../components/weather/weather.component";
   styleUrl: './dashboard.component.scss'
 })
 export class DashboardComponent {
-
+  reminders = inject(ReminderService)
 }

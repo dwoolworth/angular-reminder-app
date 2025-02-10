@@ -37,10 +37,11 @@
 
   <main class="container">
     <div class="py-4">
-      <a [routerLink]="['/dashboard']" routerLinkActive="router-link-active">Dashboard</a>  |
-      <a [routerLink]="['/admin/users']" routerLinkActive="router-link-active">Users</a>
+      <a [routerLink]="['/dashboard']" routerLinkActive="router-link-active">Reminders</a>  |
+      <a [routerLink]="['/admin/users']" routerLinkActive="router-link-active">Users</a> |
+      <a [routerLink]="['/login']" routerLinkActive="router-link-active">Login</a>
     </div>
-    <div style="border: 2px solid red">
+    <div>
       <router-outlet></router-outlet>
     </div>
   </main>

@@ -1,1 +1,32 @@
-<p>users works!</p>
+
+<div>
+    <button type="button" class="btn btn-primary">Add</button>
+
+</div>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Name</th>
+      <th scope="col">Email</th>
+      <th scope="col">Role</th>
+      <th scope="col">Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    @for (user of userService.users(); track user.id) {
+        <tr>
+            <td>{{ user.name }}</td>
+            <td>{{ user.email }}</td>
+            <td>
+                @if(user.role === 'Admin') {
+                    <span class="badge text-bg-primary">{{ user.role }}</span>
+                } @else {
+                    <span class="badge text-bg-info">{{ user.role }}</span>
+                }
+            </td>
+            <td></td>
+        </tr>
+    }
+  </tbody>
+</table>
