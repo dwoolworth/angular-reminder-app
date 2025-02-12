@@ -1,31 +1,64 @@
-
-<div>
-    <button type="button" class="btn btn-primary">Add</button>
+<div class="d-flex p-3 mb-3 bg-light">
+  <div>
+    <h2 class="p-0 m-0">Users</h2>
+  </div>
+  <div class="ms-auto">
+    <button type="button" class="btn btn-primary" (click)="showAddUserDialog()" >Add</button>
+  </div>
 </div>
+
+<app-dialog [(open)]="dialogOpen" (saveAction)="saveUser()" title="Add User">
+  <form [formGroup]="userForm">
+
+    <app-entry formControlName="firstName" class="pb-3" label="First Name" [errorMessage]="getErrorMessage(userForm.controls.firstName)" ></app-entry>
+    <app-entry formControlName="lastName" class="pb-3" label="Last Name" [errorMessage]="getErrorMessage(userForm.controls.lastName)"></app-entry>
+    <app-entry formControlName="email" class="pb-3" label="Email" type="email" [errorMessage]="getErrorMessage(userForm.controls.email)"></app-entry>
+    <app-entry formControlName="phoneNumber" class="pb-3" label="Phone Number" [errorMessage]="getErrorMessage(userForm.controls.phoneNumber)"></app-entry>
+    <app-entry formControlName="password" class="pb-3" label="Password" type="password" [errorMessage]="getErrorMessage(userForm.controls.password)"></app-entry>
+
+    <app-checkbox formControlName="roleSubscriber" label="Subscriber"></app-checkbox>
+    <app-checkbox formControlName="roleAdmin" label="Admin"></app-checkbox>
+
+    {{ userForm.value | json }}
+
+    {{ userForm.controls.email.errors | json }}
+
+  </form>
+</app-dialog>
 
 <table class="table">
   <thead>
     <tr>
-      <th scope="col">Name</th>
+      <th scope="col">First Name</th>
+      <th scope="col">Last Name</th>
+      <th scope="col">Phone Number</th>
       <th scope="col">Email</th>
       <th scope="col">Role</th>
       <th scope="col">Actions</th>
     </tr>
   </thead>
   <tbody>
-    @for (user of userService.users(); track user.id) {
-        <tr>
-            <td>{{ user.name }}</td>
-            <td>{{ user.email }}</td>
-            <td>
-                @if(user.role === 'Admin') {
-                    <span class="badge text-bg-primary">{{ user.role }}</span>
-                } @else {
-                    <span class="badge text-bg-info">{{ user.role }}</span>
-                }
-            </td>
-            <td></td>
-        </tr>
+    @for (user of userService.users(); track user._id) {
+    <tr>
+      <td>{{ user.firstName }}</td>
+      <td>{{ user.lastName }}</td>
+      <td>{{ user.phoneNumber }}</td>
+      <td>{{ user.email }}</td>
+      <td>
+        @for(role of user.roles; track role) { @if(role === 'admin') {
+        <span class="badge text-bg-primary">{{ role }}</span>
+        } @else {
+        <span class="badge text-bg-info">{{ role }}</span>
+        } }
+      </td>
+      <td>
+        <div class="d-flex">
+          <div class="ms-auto">
+            <button type="button" class="btn btn-sm btn-secondary">Edit</button>
+          </div>
+        </div>
+      </td>
+    </tr>
     }
   </tbody>
 </table>

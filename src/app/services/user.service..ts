@@ -1,47 +1,38 @@
+import { Injectable, signal } from "@angular/core";
+import { HttpClient } from "@angular/common/http";
+import { User } from "../models/user";
 
-import { Injectable, signal } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+const users: User[] = [
+  {
+    _id: "1",
+    firstName: "John",
+    lastName: "Doe",
+    email: "johndoe@example.com",
+    roles: ["subscriber"],
+  },
+  {
+    _id: "2",
+    firstName: "Jane",
+    lastName: "Smith",
+    email: "janesmith@example.com",
+    roles: ["subscriber"],
+  },
+  {
+    _id: "3",
+    firstName: "William",
+    lastName: "Johnson",
+    email: "williamjohnson@example.com",
+    roles: ["subscriber"],
+  },
+];
 
-
-const data = {
-    "users": [
-      {
-        "id": 1,
-        "name": "John Doe",
-        "email": "johndoe@example.com",
-        "role": "Admin"
-      },
-      {
-        "id": 2,
-        "name": "Jane Smith",
-        "email": "janesmith@example.com",
-        "role": "User"
-      },
-      {
-        "id": 3,
-        "name": "William Johnson",
-        "email": "williamjohnson@example.com",
-        "role": "User"
-      },
-      {
-        "id": 4,
-        "name": "Alicia Brown",
-        "email": "aliciabrown@example.com",
-        "role": "User"
-      },
-      {
-        "id": 5,
-        "name": "Ethan Davis",
-        "email": "ethandavis@example.com",
-        "role": "Admin"
-      }
-    ]
-  }
-
-@Injectable({providedIn: 'root'})
+@Injectable({ providedIn: "root" })
 export class UserService {
+  users = signal(users);
 
-    users = signal(data.users);
+  constructor(private httpClient: HttpClient) {}
 
-    constructor(private httpClient: HttpClient) { }
+  findUserByEmail(email: string): User | undefined {
+    return users.find((user) => user.email === email);
+  }
 }

@@ -1,0 +1,12 @@
+<div class="form-floating mb-3">
+  <input [type]="type" class="form-control" [(ngModel)]="value">
+  <label>{{label}}</label>
+
+  <small class="form-text text-muted">
+    {{ description }}
+  </small>
+
+  <small class="form-text text-danger">
+    {{ errorMessage }}
+  </small>
+</div>
