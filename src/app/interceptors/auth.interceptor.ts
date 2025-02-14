@@ -11,9 +11,6 @@ export function authIntereceptor(
 
     const tokenService = inject(AuthTokenService);
     const accessToken = tokenService.getToken();
-
-    //console.log('Access Token', accessToken);
-
     const isApiUrl = req.url.startsWith(API_URL);
 
     if (accessToken && isApiUrl)  {
