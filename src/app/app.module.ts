@@ -3,7 +3,7 @@ import { NgModule } from "@angular/core";
 import { ReactiveFormsModule } from "@angular/forms";
 import { EntryComponent } from "./components/entry/entry.component";
 import { CheckboxComponent } from "./components/checkbox/checkbox.component";
-import { AlertComponent } from "./components/alert/alert/alert.component";
+import { AlertComponent } from "./components/alert/alert.component";
 import { DialogComponent } from "./components/dialog/dialog.component";
 import { WeatherComponent } from "./components/weather/weather.component";
 
