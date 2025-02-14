@@ -1,10 +1,10 @@
 import { Component, inject } from '@angular/core';
-import { WeatherComponent } from "../../components/weather/weather.component";
 import { ReminderService } from '../../services/reminder.service.';
+import { AppModule } from '../../app.module';
 
 @Component({
   selector: 'app-dashboard',
-  imports: [WeatherComponent],
+  imports: [AppModule],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss'
 })

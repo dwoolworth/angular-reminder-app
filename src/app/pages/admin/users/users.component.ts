@@ -1,15 +1,14 @@
 import { Component, inject } from "@angular/core";
 import { UserService } from "../../../services/user.service.";
-import { DialogComponent } from "../../../components/dialog/dialog.component";
-import { FormArray, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from "@angular/forms";
-import { EntryComponent } from "../../../components/entry/entry.component";
-import { CheckboxComponent } from "../../../components/checkbox/checkbox.component";
-import { CommonModule } from "@angular/common";
-import { ErrorMessageService } from "../../../services/errormessage.service";
+import { FormControl, FormGroup, Validators } from "@angular/forms";
+import { ErrorMessageService } from "../../../services/error-message.service";
+import { AppModule } from "../../../app.module";
+import { first } from "rxjs";
+import { User } from "../../../models/user";
 
 @Component({
   selector: "app-users",
-  imports: [DialogComponent, CommonModule, EntryComponent, CheckboxComponent, ReactiveFormsModule],
+  imports: [AppModule],
   templateUrl: "./users.component.html",
   styleUrl: "./users.component.scss",
 })
@@ -26,11 +25,14 @@ export class UsersComponent {
   ];
 
   userForm = new FormGroup({
-    firstName: new FormControl("", [Validators.required ]),
+    firstName: new FormControl("", [Validators.required]),
     lastName: new FormControl("", [Validators.required]),
     email: new FormControl("", [Validators.email]),
     phoneNumber: new FormControl("", []),
-    password: new FormControl("", [Validators.required, Validators.minLength(8) ]),
+    password: new FormControl("", [
+      Validators.required,
+      Validators.minLength(8),
+    ]),
     roleAdmin: new FormControl(false),
     roleSubscriber: new FormControl(false),
   });
@@ -41,15 +43,43 @@ export class UsersComponent {
   }
 
   saveUser() {
-    //this.dialogOpen = false;
-    this.showFormErrors = true;
-  }
+    if (!this.userForm.valid) {
+      this.showFormErrors = true;
+      return;
+    }
+    this.dialogOpen = false;
+    this.showFormErrors = false;
 
+    const data = this.userForm.value;
+    const roles = [];
+
+    if (data.roleAdmin) {
+      roles.push("admin");
+    }
+    if (data.roleSubscriber) {
+      roles.push("subscriber");
+    }
+
+    const user: User = {
+      firstName: data.firstName ?? '',
+      lastName: data.lastName ?? '',
+      email: data.email ?? '',
+      phoneNumber: data.phoneNumber ?? '',
+      password: data.password ?? '',
+      roles: roles
+    }
+
+    this.userService.create(user).subscribe((data) => {
+
+      console.log(data);
+
+    });
+  }
 
   getErrorMessage(control: FormControl) {
     if (this.showFormErrors) {
       return this.errorMessageService.getErrorMessage(control);
     }
-    return '';
+    return "";
   }
 }

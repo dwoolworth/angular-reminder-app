@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { WeatherService } from '../../services/weather.service';
 
 @Component({
@@ -9,6 +9,11 @@ import { WeatherService } from '../../services/weather.service';
   templateUrl: './weather.component.html',
   styleUrl: './weather.component.scss'
 })
-export class WeatherComponent {
+export class WeatherComponent implements OnInit {
+
   weatherService = inject(WeatherService);
+
+  ngOnInit(): void {
+    this.weatherService.getWeather();
+  }
 }

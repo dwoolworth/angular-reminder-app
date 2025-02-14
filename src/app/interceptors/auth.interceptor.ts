@@ -1,13 +1,27 @@
-import { Injectable } from '@angular/core';
-import { HttpInterceptor, HttpEvent, HttpHandler, HttpRequest } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { HttpEvent, HttpHandlerFn, HttpRequest } from "@angular/common/http";
+import { inject } from "@angular/core";
+import { Observable } from "rxjs";
+import { AuthTokenService } from "../services/auth-token.service";
+import { API_URL } from "../config";
 
-@Injectable()
-export class AuthInterceptor implements HttpInterceptor {
-    intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+export function authIntereceptor(
+  req: HttpRequest<unknown>,
+  next: HttpHandlerFn
+): Observable<HttpEvent<unknown>> {
 
-        // TODO: Add authrosation token
+    const tokenService = inject(AuthTokenService);
+    const accessToken = tokenService.getToken();
 
-        return next.handle(req);
+    //console.log('Access Token', accessToken);
+
+    const isApiUrl = req.url.startsWith(API_URL);
+
+    if (accessToken && isApiUrl)  {
+        const apiReq = req.clone({
+            headers: req.headers.set('Authorization', `Bearer ${accessToken}`)
+        });
+        return next(apiReq);
     }
+
+    return next(req)
 }

@@ -4,6 +4,8 @@
       <div class="col">Some note</div>
       <div class="col">
         <h1>{{ weatherService.weather() }}</h1>
+
+        <img [src]="weatherService.iconUrl()" alt="Weather Icon" />
       </div>
     </div>
   </div>

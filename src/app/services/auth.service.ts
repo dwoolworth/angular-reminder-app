@@ -1,38 +1,63 @@
+import { Injectable, signal } from "@angular/core";
+import { HttpClient } from "@angular/common/http";
+import { catchError, Observable, of } from "rxjs";
+import { User } from "../models/user";
+import { LoginResponse } from "../models/login-response";
+import { UserService } from "./user.service.";
+import { AuthTokenService } from "./auth-token.service";
+import { CookieService } from "./cookie.service";
 
-import { Injectable, signal } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
-import { User } from '../models/user';
-import { LoginResponse } from '../models/login-response';
-import { UserService } from './user.service.';
+interface AuthResult {
+  access_token: string;
+}
 
-
-@Injectable({providedIn: 'root'})
+@Injectable({ providedIn: "root" })
 export class AuthService {
+  currentUser = signal<User | null>(null);
 
-    currentUser = signal<User|null>(null);
+  constructor(
+    private httpClient: HttpClient,
+    private userService: UserService,
+    private authTokenService: AuthTokenService,
+    private cookieService: CookieService
+  ) {}
 
-    constructor(
-        private httpClient: HttpClient,
-        private userService: UserService
-    ) { }
+  authenticate() {
+    return of(true);
+  }
 
-    authenticate() {
-        return of(true);
-    }
+  logIn(email: string, password: string): Observable<LoginResponse> {
+    this.authTokenService.removeToken();
 
-    signIn(email: string, password: string): Observable<LoginResponse> {
-        const user = this.userService.findUserByEmail(email);
+    const result: LoginResponse = {
+      refreshToken: "",
+      accessToken: "",
+      user: undefined,
+      error: undefined
+    };
 
-        const result : LoginResponse = {
-            refreshToken: 'RefreshToken',
-            accessToken: 'AccessToken',
-            user: user
-        }
-        return of(result);
-    }
+    return new Observable((observer) => {
+      this.httpClient
+        .post<AuthResult>("auth/login", { email, password })
+        .subscribe({
+          next: (data) => {
+            this.authTokenService.saveToken(data.access_token);
+            result.refreshToken = this.cookieService.getCookie('refreshToken');
+            result.accessToken = data.access_token;
+            observer.next(result);
+            observer.complete();
+          },
+          error: (error) => {
+            result.error = error;
+            console.log(error)
+            observer.next(result);
+            observer.complete();
+          },
+        });
+    });
+  }
 
-    isAuthenticated() {
-        return true;
-    }
+  isAuthenticated() {
+    return true;
+  }
 }
