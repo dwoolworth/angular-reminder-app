@@ -1,5 +1,3 @@
-
-
 <div class="modal" [ngClass]="{'d-block': open}" tabindex="-1">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -16,10 +14,12 @@
         <ng-content></ng-content>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" (click)="close()">
-          Close
+        <button type="button" class="btn" [ngClass]="closeClass" (click)="close()">
+          {{ closeActionTitle }}
         </button>
-        <button type="button" class="btn btn-primary" (click)="save()" >Save</button>
+        <button type="button" class="btn" [ngClass]="saveClass"  (click)="save()">
+          {{ saveActionTitle }}
+        </button>
       </div>
     </div>
   </div>

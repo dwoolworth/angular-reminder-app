@@ -3,8 +3,9 @@ import { UserService } from "../../../services/user.service.";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { ErrorMessageService } from "../../../services/error-message.service";
 import { AppModule } from "../../../app.module";
-import { first } from "rxjs";
 import { User } from "../../../models/user";
+import { DialogService } from "../../../components/services/dialog.service";
+import { NotificationService } from "../../../components/services/notification.service";
 
 @Component({
   selector: "app-users",
@@ -15,6 +16,8 @@ import { User } from "../../../models/user";
 export class UsersComponent {
   userService = inject(UserService);
   errorMessageService = inject(ErrorMessageService);
+  dialogService = inject(DialogService);
+  notificationService = inject(NotificationService);
 
   dialogOpen = false;
   showFormErrors = false;
@@ -61,20 +64,29 @@ export class UsersComponent {
     }
 
     const user: User = {
-      firstName: data.firstName ?? '',
-      lastName: data.lastName ?? '',
-      email: data.email ?? '',
-      phoneNumber: data.phoneNumber ?? '',
-      password: data.password ?? '',
-      roles: roles
-    }
+      firstName: data.firstName ?? "",
+      lastName: data.lastName ?? "",
+      email: data.email ?? "",
+      phoneNumber: data.phoneNumber ?? "",
+      password: data.password ?? "",
+      roles: roles,
+    };
 
     this.userService.create(user).subscribe((data) => {
-
       console.log(data);
-
     });
   }
+
+  showDialog() {
+    this.dialogService
+      .confirm("Are you sure you want to delete selected user?")
+      .subscribe((result) => {
+
+        this.notificationService.show("Dialog closed");
+
+      });
+  }
+
 
   getErrorMessage(control: FormControl) {
     if (this.showFormErrors) {

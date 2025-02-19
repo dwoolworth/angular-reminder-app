@@ -26,7 +26,7 @@ export class WeatherService {
       return of(true);
     }
 
-    return new Observable<boolean>((observer) => {
+    return new Observable((observer) => {
       const fullUrl = `${this.url}?q=${this.cityName}&appid=${this.apiKey}&units=metric`;
 
       return this.httpClient.get(fullUrl).subscribe((data: any) => {
