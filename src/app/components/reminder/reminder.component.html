@@ -1,0 +1,39 @@
+
+
+<div class="d-flex justify-content-between">
+    <h3 class="p-0 m-0">Reminders: {{ reminderService.reminders().total }} </h3>
+    <div class="d-flex">
+        <button type="button" class="btn btn-outline-primary me-2" (click)="showCompleted()">View Completed</button> 
+        <button type="button" class="btn btn-primary">Create New</button> 
+    </div>
+</div>
+
+<div class="py-2">
+  @if(reminderService.hasReminders()) {
+    @for (item of reminderService.reminders().reminders; track item._id) {
+      <reminder-item 
+        [dueDate]="reminderService.formatDate(item.dueDate)"
+        [overDue]="reminderService.isOverdue(item)"
+        [description]="item.description"
+        [priority]="item.priority"
+        [notes]="item.notes"
+        >
+      </reminder-item>
+      <!-- <div class="card mt-1">
+        <div class="card-header">
+          <span>{{ reminderService.formatDate(item.dueDate) }}</span>
+          <span class="badge text-bg-secondary d-inline-block ms-2">{{ reminderService.isOverdue(item) ? "Over Due" : "To Do" }} </span>
+
+        </div>
+        <div class="card-body">
+          <h5 class="card-title">{{ item.description }}</h5>
+          <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+        </div>
+      </div> -->
+    }
+  } @else {
+    <div class="alert alert-primary" role="alert">
+      There are no reminders for today!
+    </div>
+  }
+</div>

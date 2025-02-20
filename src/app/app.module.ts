@@ -7,6 +7,8 @@ import { AlertComponent } from "./components/alert/alert.component";
 import { DialogComponent } from "./components/dialog/dialog.component";
 import { WeatherComponent } from "./components/weather/weather.component";
 import { DialogServiceComponent } from "./components/services/dialog-service.component";
+import { RemindersComponent } from "./components/reminder/reminder.component";
+import { ReminderItemComponent } from "./components/reminder-item/reminder-item.component";
 
 const Components = [
   EntryComponent,
@@ -14,7 +16,9 @@ const Components = [
   AlertComponent,
   DialogComponent,
   WeatherComponent,
-  DialogServiceComponent
+  DialogServiceComponent,
+  RemindersComponent,
+  ReminderItemComponent
 ]
 
 @NgModule({
