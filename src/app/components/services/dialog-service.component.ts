@@ -7,13 +7,14 @@ import { DialogComponent } from '../dialog/dialog.component';
   imports: [DialogComponent],
   template: `
       <app-dialog
-        saveActionTitle="Ok"
-        closeActionTitle="Cancel"
-        saveClass="btn-danger"
+        [saveActionTitle]="service.acceptTitle"
+        [closeActionTitle]="service.cancelTitle"
+        saveClass="btn-danger w-25"
+        closeClass="btn-secondary w-25"
         [(open)]="service.isOpen"
         (saveAction)="service.close(true)"
         (closeAction)="service.close(false)"
-        title="Confirmation">
+        [title]="service.title">
 
         {{ service.message }}
       </app-dialog>

@@ -1,5 +1,5 @@
 <div class="modal" [ngClass]="{'d-block': open}" tabindex="-1">
-  <div class="modal-dialog">
+  <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title">{{ title }}</h5>
@@ -13,13 +13,13 @@
       <div class="modal-body">
         <ng-content></ng-content>
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn" [ngClass]="closeClass" (click)="close()">
-          {{ closeActionTitle }}
-        </button>
-        <button type="button" class="btn" [ngClass]="saveClass"  (click)="save()">
-          {{ saveActionTitle }}
-        </button>
+      <div class="modal-footer d-flex align-items-center justify-content-center">
+          <button type="button" class="btn" [ngClass]="closeClass" (click)="close()">
+            {{ closeActionTitle }}
+          </button>
+          <button type="button" class="btn" [ngClass]="saveClass"  (click)="save()">
+            {{ saveActionTitle }}
+          </button>
       </div>
     </div>
   </div>

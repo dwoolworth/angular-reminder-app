@@ -79,7 +79,11 @@ export class UsersComponent {
 
   showDialog() {
     this.dialogService
-      .confirm("Are you sure you want to delete selected user?")
+      .confirm("Are you sure you want to delete selected user?", {
+        title: "Delete user",
+        cancelTitle: "Cancel",
+        acceptTitle: "Delete",
+      })
       .subscribe((result) => {
 
         this.notificationService.show("Dialog closed");
