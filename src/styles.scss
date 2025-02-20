@@ -1,1 +1,47 @@
 /* You can add global styles to this file, and also import other style files */
+
+$sea : #003c44;
+$sea-on-hover: #002c33;
+
+.bg-ph-card-header {
+  background: rgb(0 60 68 / 3%);;
+}
+
+.btn-info,
+.btn-primary,
+.open > .dropdown-toggle.btn-primary,
+.open > .dropdown-toggle.btn-info {
+ background-color: $sea;
+ border-color: $sea;
+ outline: none;
+
+ &:hover,
+ &:focus,
+ &:active,
+ &:disabled:hover,
+ &:active:focus {
+   background-color: $sea-on-hover;
+   border-color: $sea-on-hover;
+   outline: none;
+
+ }
+}
+
+.text-primary {
+    color: $sea !important;
+}
+
+.btn-outline-primary {
+ border: 1px solid $sea;
+ color: $sea !important;
+ background-color: transparent;
+
+ &:hover,
+ &:focus,
+ &:active,
+ &:active:focus {
+   color: $sea-on-hover !important;
+   background-color: transparent;
+   border-color: $sea;
+ }
+}

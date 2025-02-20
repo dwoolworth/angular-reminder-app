@@ -1,26 +1,25 @@
 
 import { computed, Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { API_URL } from '../config';
-import { Reminder } from '../models/reminder';
+import { Reminder, ReminderServiceResponse } from '../models/reminder';
 
 @Injectable({providedIn: 'root'})
 export class ReminderService {
 
-    reminders = signal ([
-        {id: 1, title: 'Reminder 1'},
-        {id: 2, title: 'Reminder 2'},
-        {id: 3, title: 'Reminder 3'},
-        {id: 4, title: 'Reminder 4'},
-        {id: 5, title: 'Reminder 5'}
-    ]);
+    reminders = signal (<ReminderServiceResponse>{});
 
-    hasReminders = computed(() => this.reminders().length > 0);
+    hasReminders = computed(() => this.reminders().total > 0);
+
+    isOverdue = (reminder: Reminder) => new Date(reminder.dueDate) < new Date() && !reminder.status; 
+
+    formatDate = (dateString: string) => new Intl.DateTimeFormat("en-US").format(new Date(dateString))
 
     constructor(private httpClient: HttpClient) { }
 
-    findAll() {
-        return this.httpClient.get<Reminder[]>(`reminders`);
+    findAll(queryString: string = 'showCompleted=false') {
+        return this.httpClient.get<ReminderServiceResponse>(`reminder?${queryString}`).subscribe(response => {
+            this.reminders.set(response)
+        });
     }
 
     findById(id: string) {

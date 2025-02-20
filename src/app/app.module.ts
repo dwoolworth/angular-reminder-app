@@ -6,13 +6,17 @@ import { CheckboxComponent } from "./components/checkbox/checkbox.component";
 import { AlertComponent } from "./components/alert/alert.component";
 import { DialogComponent } from "./components/dialog/dialog.component";
 import { WeatherComponent } from "./components/weather/weather.component";
+import { RemindersComponent } from "./components/reminder/reminder.component";
+import { ReminderItemComponent } from "./components/reminder-item/reminder-item.component";
 
 const Components = [
   EntryComponent,
   CheckboxComponent,
   AlertComponent,
   DialogComponent,
-  WeatherComponent
+  WeatherComponent,
+  RemindersComponent,
+  ReminderItemComponent
 ]
 
 @NgModule({
