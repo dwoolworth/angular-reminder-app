@@ -16,7 +16,7 @@ export class RemindersComponent implements OnInit {
   reminderService = inject(ReminderService);
 
   showCompleted(){
-    this.reminderService.findAll('showCompleted=true')
+    this.reminderService.findAll('showCompleted=COMPLETED')
   }
 
   ngOnInit(): void {
