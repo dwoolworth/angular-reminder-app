@@ -3,7 +3,7 @@ export interface Reminder {
   description: string;
   dueDate: string;
   priority: boolean,
-  status: boolean,
+  status: keyof typeof ReminderType,
   user: string;
   notes: Note[]
 }
@@ -17,4 +17,14 @@ export type Note = {
 export type ReminderServiceResponse = {
   reminders: Reminder[],
   total: number
+}
+
+export enum ReminderType {
+ 'COMPLETED',
+ 'PENDING' 
+}
+
+export enum ReminderAction {
+  'PIN',
+  'MARK_COMPLETE'
 }
