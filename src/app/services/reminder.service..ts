@@ -16,7 +16,7 @@ export class ReminderService {
 
     constructor(private httpClient: HttpClient) { }
 
-    findAll(queryString: string = 'showCompleted=PENDING') {
+    findAll(queryString: string = 'status=PENDING') {
         return this.httpClient.get<ReminderServiceResponse>(`reminder?${queryString}`).subscribe(response => {
             this.reminders.set(response)
         });
