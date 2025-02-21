@@ -11,9 +11,13 @@ interface AuthResult {
   access_token: string;
 }
 
+export interface CurrentUser {
+  email: string;
+}
+
 @Injectable({ providedIn: "root" })
 export class AuthService {
-  currentUser = signal<User | null>(null);
+  currentUser = signal<CurrentUser | null>(null);
 
   constructor(
     private httpClient: HttpClient,
@@ -49,11 +53,16 @@ export class AuthService {
             this.authTokenService.saveToken(data.access_token);
             result.refreshToken = this.cookieService.getCookie('refreshToken');
             result.accessToken = data.access_token;
+
+            this.currentUser.set({
+                email: email
+            });
             observer.next(result);
             observer.complete();
           },
           error: (error) => {
             result.error = error;
+            this.currentUser.set(null);
             console.log(error)
             observer.next(result);
             observer.complete();
@@ -63,6 +72,6 @@ export class AuthService {
   }
 
   isAuthenticated() {
-    return true;
+    return this.currentUser() !== null;
   }
 }

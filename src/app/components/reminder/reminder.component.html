@@ -1,6 +1,6 @@
 
 
-<app-dialog 
+<app-dialog
   [open]="isDialogOpen()"
   (saveAction)="handleSave()"
   (closeAction)="closeDialog()"
@@ -14,15 +14,15 @@
 <div class="d-flex justify-content-between">
     <h3 class="p-0 m-0">Reminders: {{ reminderService.reminders().total }} </h3>
     <div class="d-flex">
-        <button type="button" class="btn btn-outline-primary me-2" (click)="showCompleted()">{{ show() === 'COMPLETED' ? "Hide Completed" : "View Completed" }}</button> 
-        <button type="button" class="btn btn-primary">Create New</button> 
+        <button type="button" class="btn btn-outline-primary me-2" (click)="showCompleted()">{{ show() === 'COMPLETED' ? "Hide Completed" : "View Completed" }}</button>
+        <button type="button" class="btn btn-primary">Create New</button>
     </div>
 </div>
 
 <div class="py-2">
   @if(reminderService.hasReminders()) {
     @for (item of reminderService.reminders().reminders; track item._id) {
-      <reminder-item 
+      <reminder-item
         [dueDate]="reminderService.formatDate(item.dueDate)"
         [overDue]="reminderService.isOverdue(item)"
         [description]="item.description"
@@ -47,8 +47,8 @@
       </div> -->
     }
   } @else {
-    <div class="alert alert-primary" role="alert">
-      There are no reminders for today!
+    <div class="alert alert-info py-2 px-3 my-2" role="alert">
+      There are no reminders!
     </div>
   }
 </div>
