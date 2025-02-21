@@ -26,6 +26,11 @@ export class AuthService {
     return of(true);
   }
 
+  logout() {
+    this.authTokenService.removeToken();
+    this.currentUser.set(null);
+  }
+
   logIn(email: string, password: string): Observable<LoginResponse> {
     this.authTokenService.removeToken();
 

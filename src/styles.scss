@@ -59,3 +59,7 @@ app-layout {
   min-height: 100vh;
   flex-direction: column;
 }
+
+.nav-item:hover {
+  background-color: whitesmoke;
+}

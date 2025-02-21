@@ -10,7 +10,7 @@ export class NotificationService {
   isOpen = false;
   message = "Notification";
   duration = 3000;
-  type="primary";
+  type="info";
 
   private timerId: any = undefined;
 

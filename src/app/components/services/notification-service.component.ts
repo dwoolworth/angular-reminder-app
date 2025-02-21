@@ -6,6 +6,7 @@ import { NgClass } from "@angular/common";
   selector: "app-notification-service",
   imports: [NgClass],
   templateUrl: './notification-service.component.html',
+  styleUrls: ['./notification-service.component.scss']
 })
 export class NotificationServiceComponent {
   service = inject(NotificationService);
@@ -13,6 +14,6 @@ export class NotificationServiceComponent {
   className() {
     const className = this.service.isOpen ? "fade show" : " fade hidde";
 
-    return className + " alert-" + this.service.type;
+    return className + " notification-" + this.service.type;
   }
 }

@@ -1,0 +1,64 @@
+.notification {
+  --notification-border-color: var(--bs-primary);
+  --notification-content-color: var(--bs-primary-bg-subtle);
+  --notification-text-color: var(--bs-primary-text-emphasis);
+  --notification-icon-color: var(--bs-white);
+
+  border-width: 2px;
+  border-color:var(--notification-border-color);
+  border-style: solid;
+  display: flex;
+  border-radius: 6px;
+  overflow: hidden;
+
+  .notification-icon {
+    width: 30px;
+    font-size: 20px;
+    background-color: var(--notification-border-color);
+    color: var(--notification-icon-color);
+    padding: 5px;
+  }
+
+  .notification-content {
+    display: flex;
+    flex:1;
+    align-items: center;
+    padding: 4px;
+    padding-left: 6px;
+    background-color: var(--notification-content-color);
+    color: var(--notification-text-color);
+  }
+
+
+  &.notification-primary {
+    --notification-border-color: var(--bs-primary);
+    --notification-content-color: var(--bs-primary-bg-subtle);
+    --notification-text-color: var(--bs-primary-text-emphasis);
+  }
+
+  &.notification-danger {
+    --notification-border-color: var(--bs-danger);
+    --notification-content-color: var(--bs-danger-bg-subtle);
+    --notification-text-color: var(--bs-danger-text-emphasis);
+  }
+
+
+  &.notification-success {
+    --notification-border-color: var(--bs-success);
+    --notification-content-color: var(--bs-success-bg-subtle);
+    --notification-text-color: var(--bs-success-text-emphasis);
+  }
+
+  &.notification-warning {
+    --notification-border-color: var(--bs-warning);
+    --notification-content-color: var(--bs-warning-bg-subtle);
+    --notification-text-color: var(--bs-warning-text-emphasis);
+  }
+
+  &.notification-info {
+    --notification-border-color: var(--bs-info);
+    --notification-content-color: var(--bs-info-bg-subtle);
+    --notification-text-color: var(--bs-info-text-emphasis);
+  }
+}
+

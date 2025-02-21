@@ -5,6 +5,7 @@ import { AuthService } from "../../../services/auth.service";
 import { AuthTokenService } from "../../../services/auth-token.service";
 import { catchError } from "rxjs";
 import { Router } from "@angular/router";
+import { NotificationService } from "../../../components/services/notification.service";
 
 @Component({
   selector: "app-login",
@@ -18,20 +19,18 @@ export class LoginComponent {
   authService = inject(AuthService);
   tokenService = inject(AuthTokenService);
   router = inject(Router);
+  notificationService = inject(NotificationService);
 
   loginForm = new FormGroup({
-    email: new FormControl("", [Validators.email]),
-    password: new FormControl("", [
-      Validators.required,
-      Validators.minLength(8),
-    ]),
+    email: new FormControl(""),
+    password: new FormControl(""),
     rememberMe: new FormControl(false),
   });
 
 
   login() {
     console.log(this.loginForm.value);
-    this.errorMessage = 's';
+    this.errorMessage = '';
     const email = this.loginForm.value.email ?? "";
     const password = this.loginForm.value.password ?? "";
 
@@ -39,7 +38,7 @@ export class LoginComponent {
       .logIn(email, password)
       .subscribe((result) => {
         if(result.error) {
-          this.errorMessage = 'Please check your credentials';
+          this.notificationService.show('Invalid username or password', {type: 'danger'} );
           return;
         }
 
