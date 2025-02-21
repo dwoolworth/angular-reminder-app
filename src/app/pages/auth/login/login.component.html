@@ -1,21 +1,27 @@
 <div class="card login-form">
-  <div class="card-header py-3">
-    <h3 class="p-0 m-0">Login</h3>
+  <div class="text-center py-4">
+    <img src="/img/PH-logo.png" height="100" alt="PH-logo" />
+  </div>
+  <div class="text-center py-3">
+    <h4 class="p-0 m-0">Sign in to PH Intellect</h4>
   </div>
 
   <form [formGroup]="loginForm" class="p-3">
-
     <app-alert *ngIf="errorMessage" type="danger">
       {{ errorMessage }}
     </app-alert>
 
-    <app-entry formControlName="email" label="Email" ></app-entry>
-    <app-entry formControlName="password" type="Password" label="Password" ></app-entry>
-
-    <app-checkbox formControlName="rememberMe" label="Remember me" ></app-checkbox>
+    <app-entry formControlName="email" label="Email"></app-entry>
+    <app-entry
+      formControlName="password"
+      type="Password"
+      label="Password"
+    ></app-entry>
 
     <div class="pt-4">
-      <button type="button" (click)="login()" class="btn w-100 btn-primary">Login</button>
+      <button type="button" (click)="login()" class="btn w-100 btn-primary">
+        Login
+      </button>
     </div>
   </form>
 </div>

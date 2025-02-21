@@ -4,6 +4,7 @@ import { UsersComponent } from "./pages/admin/users/users.component";
 import { LayoutComponent } from "./layouts/layout/layout.component";
 import { LoginComponent } from "./pages/auth/login/login.component";
 import { AuthGuard } from "./guards/auth.guard";
+import { AuthComponent } from "./layouts/auth/auth.component";
 
 export const routes: Routes = [
   {
@@ -24,11 +25,18 @@ export const routes: Routes = [
         path: "admin/users",
         component: UsersComponent,
         canActivate: [AuthGuard],
-      },
+      }
+    ],
+  },
+  {
+    path: "",
+    component: AuthComponent,
+    children: [
       {
         path: "login",
         component: LoginComponent,
       },
-    ],
-  },
+    ]
+  }
+
 ];

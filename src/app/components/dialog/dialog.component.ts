@@ -14,6 +14,7 @@ export class DialogComponent {
 
   @Input() saveClass = 'btn-primary';
   @Input() closeClass = 'btn-secondary';
+  @Input() footerClass = '';
 
   @Input() open: boolean = false;
   @Output() openChange = new EventEmitter<boolean>();

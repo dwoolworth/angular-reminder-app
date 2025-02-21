@@ -7,6 +7,7 @@ import { DialogComponent } from '../dialog/dialog.component';
   imports: [DialogComponent],
   template: `
       <app-dialog
+        footerClass="d-flex align-items-center justify-content-center"
         [saveActionTitle]="service.acceptTitle"
         [closeActionTitle]="service.cancelTitle"
         saveClass="btn-danger w-25"

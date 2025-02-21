@@ -7,12 +7,12 @@ import { NotificationServiceComponent } from '../../components/services/notifica
   selector: 'app-layout',
   imports: [
     RouterOutlet,
-    RouterLink,
     DialogServiceComponent,
     NotificationServiceComponent
   ],
-  templateUrl: './layout.component.html',
+  templateUrl: './auth.component.html',
+  styleUrls: ['./auth.component.scss']
 })
-export class LayoutComponent {
+export class AuthComponent {
 
 }
