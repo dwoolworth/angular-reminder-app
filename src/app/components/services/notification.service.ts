@@ -7,7 +7,7 @@ interface NotificationOptions {
 
 @Injectable({ providedIn: "root" })
 export class NotificationService {
-  isOpen = true;
+  isOpen = false;
   message = "Notification";
   duration = 3000;
   type="primary";
