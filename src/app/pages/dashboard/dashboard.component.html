@@ -1,19 +1,9 @@
-
-<div class="d-flex" style="gap: 1rem;">
-  <app-weather class="w-100"></app-weather>
-  <app-reminder class="w-100"></app-reminder>
+<div class="d-flex" style="gap: 1rem">
+  <div class="col-md-6">
+    <app-weather></app-weather>
+    <app-inspiration></app-inspiration>
+  </div>
+  <div class="col-md-6">
+    <app-reminder></app-reminder>
+  </div>
 </div>
-
-<!-- <div class="py-2">
-  @if(reminders.hasReminders()) {
-    @for (item of reminders.reminders(); track item.id) {
-      <div class="card mt-1">
-        <div class="card-body">{{ item.title }}</div>
-      </div>
-    }
-  } @else {
-    <div class="alert alert-primary" role="alert">
-      There are no reminders for today!
-    </div>
-  }
-</div> -->

@@ -1,9 +1,20 @@
 
 
+<app-dialog 
+  [open]="isDialogOpen()"
+  (saveAction)="handleSave()"
+  (closeAction)="closeDialog()"
+  [title]="'Delete Reminder'"
+  [saveActionTitle]="'Delete'"
+  [saveClass]="'bg-danger text-light'"
+  >
+  Are you sure you want to delete <strong>{{ selectedReminder()?.description }}</strong>. reminder?
+</app-dialog>
+
 <div class="d-flex justify-content-between">
     <h3 class="p-0 m-0">Reminders: {{ reminderService.reminders().total }} </h3>
     <div class="d-flex">
-        <button type="button" class="btn btn-outline-primary me-2" (click)="showCompleted()">View Completed</button> 
+        <button type="button" class="btn btn-outline-primary me-2" (click)="showCompleted()">{{ show() === 'COMPLETED' ? "Hide Completed" : "View Completed" }}</button> 
         <button type="button" class="btn btn-primary">Create New</button> 
     </div>
 </div>
@@ -17,6 +28,10 @@
         [description]="item.description"
         [priority]="item.priority"
         [notes]="item.notes"
+        [item]="item"
+        [markCompleted]="markCompleted"
+        [togglePinReminder]="togglePinReminder"
+        (deleteAction)="handleDelete(item)"
         >
       </reminder-item>
       <!-- <div class="card mt-1">
