@@ -3,30 +3,30 @@
     <div class="row align-items-center">
       <div class="col-md-6 text-center">
         <h1 class="display-3 fw-bold">
-          {{ weatherService?.weather()?.main?.temp }}°F
+          {{ weatherService.weather().main.temp }}°F
         </h1>
         <p class="fs-4 text-muted">
           Feels like:
-          <strong>{{ weatherService?.weather()?.main?.feels_like }}°F</strong>
+          <strong>{{ weatherService.weather().main.feels_like }}°F</strong>
         </p>
         <p class="text-muted small">
           Sunrise:
-          {{ weatherService?.weather()?.localSunrise }}
+          {{ weatherService.weather().localSunrise }}
         </p>
         <div class="sunrise-graph"></div>
         <p class="text-muted small">
-          Sunset: {{ weatherService?.weather()?.localSunset }}
+          Sunset: {{ weatherService.weather().localSunset }}
         </p>
       </div>
       <div class="col-md-6 text-center">
-        <h2 class="fw-bold">{{ weatherService?.weather()?.name }}</h2>
+        <h2 class="fw-bold">{{ weatherService.weather().name }}</h2>
         <img
           [src]="weatherService.iconUrl()"
           alt="Weather Icon"
           class="weather-icon"
         />
         <p class="fs-4 fw-semibold">
-          {{ weatherService.weather()?.weather?.[0]?.main }}
+          {{ weatherService.weather().weather[0].main }}
         </p>
       </div>
     </div>
