@@ -3,14 +3,13 @@
     <h2 class="p-0 m-0">Users</h2>
   </div>
   <div class="ms-auto">
-    <button type="button" class="btn btn-primary me-2" (click)="showAddUserDialog()" >Add</button>
-
-    <button type="button" class="btn btn-primary" (click)="showDialog()">Open Dialog Example</button>
-
+    <button type="button" class="btn btn-primary me-2" (click)="showAddUserDialog()" >Create New</button>
   </div>
 </div>
 
-<app-dialog [(open)]="dialogOpen" (saveAction)="saveUser()" title="Add User">
+<app-dialog [(open)]="dialogOpen" (saveAction)="saveUser()" [title]="dialogTitle">
+{{editUserId}}
+
   <form [formGroup]="userForm">
 
     <app-entry formControlName="firstName" class="pb-3" label="First Name" [errorMessage]="getErrorMessage(userForm.controls.firstName)" ></app-entry>
@@ -18,18 +17,12 @@
     <app-entry formControlName="email" class="pb-3" label="Email" type="email" [errorMessage]="getErrorMessage(userForm.controls.email)"></app-entry>
     <app-entry formControlName="phoneNumber" class="pb-3" label="Phone Number" [errorMessage]="getErrorMessage(userForm.controls.phoneNumber)"></app-entry>
     <app-entry formControlName="password" class="pb-3" label="Password" type="password" [errorMessage]="getErrorMessage(userForm.controls.password)"></app-entry>
-
-    <app-checkbox formControlName="roleSubscriber" label="Subscriber"></app-checkbox>
     <app-checkbox formControlName="roleAdmin" label="Admin"></app-checkbox>
-
-    {{ userForm.value | json }}
-
-    {{ userForm.controls.email.errors | json }}
-
   </form>
 </app-dialog>
 
-<table class="table">
+
+<table class="table table-striped">
   <thead>
     <tr>
       <th scope="col">First Name</th>
@@ -57,7 +50,10 @@
       <td>
         <div class="d-flex">
           <div class="ms-auto">
-            <button type="button" class="btn btn-sm btn-secondary">Edit</button>
+            <button  type="button" class="btn btn-sm btn-secondary"
+              (click)="showEditUserDialog(user)"
+            >Edit
+            </button>
           </div>
         </div>
       </td>

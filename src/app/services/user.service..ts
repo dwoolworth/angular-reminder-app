@@ -3,63 +3,43 @@ import { HttpClient } from "@angular/common/http";
 import { User } from "../models/user";
 import { Observable } from "rxjs";
 
-const users: User[] = [
-  {
-    _id: "1",
-    firstName: "John",
-    lastName: "Doe",
-    email: "johndoe@example.com",
-    roles: ["subscriber"],
-  },
-  {
-    _id: "2",
-    firstName: "Jane",
-    lastName: "Smith",
-    email: "janesmith@example.com",
-    roles: ["subscriber"],
-  },
-  {
-    _id: "3",
-    firstName: "William",
-    lastName: "Johnson",
-    email: "williamjohnson@example.com",
-    roles: ["subscriber"],
-  },
-];
+export interface UserResponse {
+  users: User[];
+}
 
 @Injectable({ providedIn: "root" })
 export class UserService {
-  users = signal(users);
+  users = signal([] as User[]);
 
   constructor(private httpClient: HttpClient) {}
 
   findUserByEmail(email: string): User | undefined {
-    return users.find((user) => user.email === email);
+    return undefined;
   }
 
   create(user: User) {
-    return this.httpClient.post("users", user);
+    return this.httpClient.post("user", user);
   }
 
-  findAllUsers(): Observable<User[]> {
-    return this.httpClient.get<User[]>(`users`);
+  findAll(): Observable<UserResponse> {
+    return this.httpClient.get<UserResponse>(`user`);
   }
 
   findUserById(id: string): Observable<User> {
-    return this.httpClient.get<User>(`users/${id}`);
+    return this.httpClient.get<User>(`user/${id}`);
   }
 
   update(user: User) {
-    return this.httpClient.put("users", user);
+    return this.httpClient.put(`user/${user._id}`, user);
   }
 
   delete(id: string) {
-    return this.httpClient.delete(`users/${id}`);
+    return this.httpClient.delete(`user/${id}`);
   }
 
   loadAllUsers() {
-    this.findAllUsers().subscribe((data) => {
-      this.users.set(users);
+    this.findAll().subscribe((data) => {
+      this.users.set(data.users);
     })
   }
 }

@@ -17,7 +17,8 @@ export interface CurrentUser {
 
 @Injectable({ providedIn: "root" })
 export class AuthService {
-  currentUser = signal<CurrentUser | null>(null);
+
+  #authenticated = false;
 
   constructor(
     private httpClient: HttpClient,
@@ -26,13 +27,10 @@ export class AuthService {
     private cookieService: CookieService
   ) {}
 
-  authenticate() {
-    return of(true);
-  }
 
   logout() {
     this.authTokenService.removeToken();
-    this.currentUser.set(null);
+    this.#authenticated = false;
   }
 
   logIn(email: string, password: string): Observable<LoginResponse> {
@@ -54,15 +52,13 @@ export class AuthService {
             result.refreshToken = this.cookieService.getCookie('refreshToken');
             result.accessToken = data.access_token;
 
-            this.currentUser.set({
-                email: email
-            });
+            this.#authenticated = true;
             observer.next(result);
             observer.complete();
           },
           error: (error) => {
             result.error = error;
-            this.currentUser.set(null);
+            this.#authenticated = false;
             console.log(error)
             observer.next(result);
             observer.complete();
@@ -72,6 +68,11 @@ export class AuthService {
   }
 
   isAuthenticated() {
-    return this.currentUser() !== null;
+
+    if (!this.#authenticated) {
+      this.#authenticated = !this.authTokenService.isExpired()
+    }
+
+    return this.#authenticated;
   }
 }

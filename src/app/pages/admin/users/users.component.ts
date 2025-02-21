@@ -1,4 +1,4 @@
-import { Component, inject } from "@angular/core";
+import { Component, inject, OnInit } from "@angular/core";
 import { UserService } from "../../../services/user.service.";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { ErrorMessageService } from "../../../services/error-message.service";
@@ -13,12 +13,14 @@ import { NotificationService } from "../../../components/services/notification.s
   templateUrl: "./users.component.html",
   styleUrl: "./users.component.scss",
 })
-export class UsersComponent {
+export class UsersComponent implements OnInit {
+
   userService = inject(UserService);
   errorMessageService = inject(ErrorMessageService);
   dialogService = inject(DialogService);
   notificationService = inject(NotificationService);
 
+  dialogTitle = "";
   dialogOpen = false;
   showFormErrors = false;
 
@@ -27,22 +29,27 @@ export class UsersComponent {
     { description: "Subscriber", value: "subscriber" },
   ];
 
+  editUserId = "";
+
   userForm = new FormGroup({
     firstName: new FormControl("", [Validators.required]),
     lastName: new FormControl("", [Validators.required]),
-    email: new FormControl("", [Validators.email]),
+    email: new FormControl("", [Validators.required, Validators.email]),
     phoneNumber: new FormControl("", []),
-    password: new FormControl("", [
-      Validators.required,
-      Validators.minLength(8),
-    ]),
+    password: new FormControl("", []),
     roleAdmin: new FormControl(false),
-    roleSubscriber: new FormControl(false),
   });
 
+  ngOnInit(): void {
+    this.userService.loadAllUsers();
+  }
+
   showAddUserDialog() {
+    this.dialogTitle = "Create User"
     this.dialogOpen = true;
     this.showFormErrors = false;
+    this.userForm.reset();
+    this.editUserId = "";
   }
 
   saveUser() {
@@ -58,8 +65,7 @@ export class UsersComponent {
 
     if (data.roleAdmin) {
       roles.push("admin");
-    }
-    if (data.roleSubscriber) {
+    } else {
       roles.push("subscriber");
     }
 
@@ -72,23 +78,37 @@ export class UsersComponent {
       roles: roles,
     };
 
-    this.userService.create(user).subscribe((data) => {
-      console.log(data);
-    });
+    if (this.editUserId === "") {
+      this.userService.create(user).subscribe((data) => {
+        this.userService.loadAllUsers();
+        this.notificationService.show(`User ${user.firstName} ${user.lastName} has been created.`, {type: "success"});
+     });
+    } else {
+      user._id = this.editUserId;
+      this.userService.update(user).subscribe((data) => {
+        this.userService.loadAllUsers();
+        this.notificationService.show(`User ${user.firstName} ${user.lastName} has been updated.`, {type: "success"});
+     });
+    }
+
   }
 
-  showDialog() {
-    this.dialogService
-      .confirm("Are you sure you want to delete selected user?", {
-        title: "Delete user",
-        cancelTitle: "Cancel",
-        acceptTitle: "Delete",
-      })
-      .subscribe((result) => {
+  showEditUserDialog(user: User) {
 
-        this.notificationService.show("Dialog closed");
+    this.dialogTitle = "Edit User";
+    this.dialogOpen = true;
+    this.showFormErrors = false;
+    this.editUserId = user._id ?? "";
 
-      });
+    this.userForm.setValue({
+      firstName: user.firstName,
+      lastName: user.lastName,
+      email: user.email,
+      phoneNumber: user.phoneNumber ?? "",
+      password: user.password ?? "",
+      roleAdmin: user.roles.includes("admin"),
+    })
+
   }
 
 
