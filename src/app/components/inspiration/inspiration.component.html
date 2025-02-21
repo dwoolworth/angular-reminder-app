@@ -1,0 +1,21 @@
+<div class="container mt-4">
+  <div class="card shadow-sm p-4 bg-light">
+    <div
+      class="pb-3 d-flex justify-content-between align-items-center"
+      style="border-bottom: 1px solid #dbe4e5"
+    >
+      <h4 class="text-primary mb-0">Inspiration of the day!</h4>
+      @if(timestamp) {
+      <span class="text-muted small"> Generated at: {{ timestamp }} </span>
+      }
+    </div>
+
+    @if(isLoading) {
+    <div class="mt-3 mb-0">Thinking of something to say for today...</div>
+    } @else if (errorMessage) {
+    <div class="mt-3 mb-0">{{ errorMessage }}</div>
+    } @else {
+    <p class="mt-3 mb-0">{{ inspirationalQuote }}</p>
+    }
+  </div>
+</div>

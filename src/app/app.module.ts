@@ -9,6 +9,7 @@ import { WeatherComponent } from "./components/weather/weather.component";
 import { DialogServiceComponent } from "./components/services/dialog-service.component";
 import { RemindersComponent } from "./components/reminder/reminder.component";
 import { ReminderItemComponent } from "./components/reminder-item/reminder-item.component";
+import { InspirationComponent } from "./components/inspiration/inspiration.component";
 
 const Components = [
   EntryComponent,
@@ -18,11 +19,12 @@ const Components = [
   WeatherComponent,
   DialogServiceComponent,
   RemindersComponent,
-  ReminderItemComponent
-]
+  ReminderItemComponent,
+  InspirationComponent,
+];
 
 @NgModule({
-  imports: [CommonModule, ReactiveFormsModule, ...Components ],
-  exports: [CommonModule, ReactiveFormsModule, ...Components ],
+  imports: [CommonModule, ReactiveFormsModule, ...Components],
+  exports: [CommonModule, ReactiveFormsModule, ...Components],
 })
 export class AppModule {}
