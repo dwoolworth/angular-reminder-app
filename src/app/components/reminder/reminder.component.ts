@@ -39,7 +39,7 @@ export class RemindersComponent implements OnInit {
   togglePinReminder = (reminder: Reminder) => this.reminderService.update({
     _id: reminder._id,
     description: reminder.description,
-    status: 'COMPLETED',
+    status: reminder.status,
     priority: !reminder.priority,
     dueDate: reminder.dueDate
   }, 'PIN')
