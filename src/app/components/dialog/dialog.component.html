@@ -1,30 +1,29 @@
-<div class="modal" [ngClass]="{'d-block': open}" tabindex="-1">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">{{ title }}</h5>
-        <button
-          type="button"
-          class="btn-close"
-          (click)="close()"
-          aria-label="Close"
-        ></button>
-      </div>
-      <div class="modal-body">
-        <ng-content></ng-content>
-      </div>
-      <div class="modal-footer" [ngClass]="footerClass"  >
-          <button type="button" class="btn" [ngClass]="closeClass" (click)="close()">
-            {{ closeActionTitle }}
-          </button>
-          <button type="button" class="btn" [ngClass]="saveClass"  (click)="save()">
-            {{ saveActionTitle }}
-          </button>
+@if (open) {
+    <div class="modal" [ngClass]="{'d-block': open}" tabindex="-1">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">{{ title }}</h5>
+            <button
+              type="button"
+              class="btn-close"
+              (click)="close()"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <ng-content></ng-content>
+          </div>
+          <div class="modal-footer" [ngClass]="footerClass"  >
+              <button type="button" class="btn" [ngClass]="closeClass" (click)="close()">
+                {{ closeActionTitle }}
+              </button>
+              <button type="button" class="btn" [ngClass]="saveClass"  (click)="save()">
+                {{ saveActionTitle }}
+              </button>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-</div>
-
-@if (open) {
     <div class="modal-backdrop fade show"></div>
 }
