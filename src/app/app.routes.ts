@@ -5,6 +5,7 @@ import { LayoutComponent } from "./layouts/layout/layout.component";
 import { LoginComponent } from "./pages/auth/login/login.component";
 import { AuthGuard } from "./guards/auth.guard";
 import { AuthComponent } from "./layouts/auth/auth.component";
+import { DashboardResolver } from "./pages/dashboard/dashboard.resolver";
 
 export const routes: Routes = [
   {
@@ -20,6 +21,9 @@ export const routes: Routes = [
         path: "dashboard",
         component: DashboardComponent,
         canActivate: [AuthGuard],
+        resolve: {
+          dashboard: DashboardResolver
+        }
       },
       {
         path: "admin/users",
