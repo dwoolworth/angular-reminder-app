@@ -9,7 +9,7 @@ interface NotificationOptions {
 export class NotificationService {
   isOpen = false;
   message = "Notification";
-  duration = 3000;
+  duration = 2000;
   type="info";
 
   private timerId: any = undefined;

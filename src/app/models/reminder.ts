@@ -1,5 +1,5 @@
 export interface Reminder {
-  _id: string;
+  _id?: string;
   description: string;
   dueDate: string;
   priority: boolean,

@@ -1,17 +1,15 @@
 <app-dialog
   [open]="isDialogOpen()"
-  (saveAction)="handleSave()"
+  (saveAction)="deleteReminder()"
   (closeAction)="closeDialog()"
   [title]="'Delete Reminder'"
   [saveActionTitle]="'Delete'"
   [saveClass]="'bg-danger text-light'"
 >
   Are you sure you want to delete
-  <b>{{ selectedReminder()?.description }}</b>.
-  reminder?
+  <b>{{ selectedReminder()?.description }}</b
+  >. reminder?
 </app-dialog>
-
-
 
 <div class="d-flex justify-content-between">
   <h3 class="p-0 m-0">Reminders: {{ reminderService.reminders().total }}</h3>
@@ -21,23 +19,31 @@
       class="btn btn-outline-primary me-2"
       (click)="showCompleted()"
     >
-      {{ show() === "COMPLETED" ? "Hide Completed" : "View Completed" }}
+      {{ showCompletedReminders() ? "Hide Completed" : "View Completed" }}
     </button>
-    <button type="button" class="btn btn-primary">Create New</button>
+    <button
+      type="button"
+      class="btn btn-primary"
+      (click)="showCreateReminder = true"
+    >
+      Create New
+    </button>
   </div>
 </div>
 
 <div class="py-2">
-
-  <reminder-item-edit [item]="newReminder" (saveReminder)="saveNewReminder($event)" ></reminder-item-edit>
-
-  @if(reminderService.hasReminders()) { @for (item of
-  reminderService.reminders().reminders; track item._id) {
+  @if(showCreateReminder) {
+  <reminder-item-edit
+    [item]="newReminder"
+    (deleteReminder)="showCreateReminder = false"
+    (saveReminder)="saveNewReminder($event)"
+  ></reminder-item-edit>
+  } @if(hasReminders()) { @for (item of filteredReminders(); track item._id) {
   <reminder-item
     [item]="item"
     (markCompleted)="markCompleted(item)"
     (togglePinReminder)="togglePinReminder(item)"
-    (deleteAction)="handleDelete(item)"
+    (deleteReminder)="showDeleteReminderConfirmation(item)"
   >
   </reminder-item>
 

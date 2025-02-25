@@ -2,12 +2,13 @@
 import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { Note, Reminder} from '../../models/reminder';
 import { ReminderService } from '../../services/reminder.service.';
+import { CommonModule, DatePipe } from '@angular/common';
 
 @Component({
   selector: 'reminder-item',
+  imports: [ CommonModule ],
   templateUrl: './reminder-item.component.html',
 })
-
 export class ReminderItemComponent {
 
     reminderService = inject(ReminderService);

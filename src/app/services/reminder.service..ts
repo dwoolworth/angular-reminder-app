@@ -1,7 +1,7 @@
 
 import { computed, Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Reminder, ReminderAction, ReminderServiceResponse } from '../models/reminder';
+import { Reminder, ReminderServiceResponse } from '../models/reminder';
 
 export interface ReminderQueryParams {
 
@@ -10,32 +10,18 @@ export interface ReminderQueryParams {
 @Injectable({providedIn: 'root'})
 export class ReminderService {
 
-
     reminders = signal(<ReminderServiceResponse>{
-        reminders: [
-            {
-                _id: "1",
-                description: "Reminder"
-            },
-            {
-                _id: "2",
-                description: "Reminder"
-            },
-            {
-                _id: "3",
-                description: "Reminder"
-            },
-        ],
-        total: 1
+        reminders: [],
+        total: 0
     });
 
     hasReminders = computed(() => this.reminders().total > 0);
 
-    isOverdue = (reminder: Reminder) => new Date(reminder.dueDate) < new Date() && reminder.status === 'PENDING';
-
-    formatDate = (dateString: string) => new Intl.DateTimeFormat("en-US").format(new Date(dateString))
-
     constructor(private httpClient: HttpClient) { }
+
+    isOverdue (reminder: Reminder) {
+        return new Date(reminder.dueDate) < new Date() && reminder.status === 'PENDING';
+    }
 
     findAll(params : Record<string, any> = {}) {
         return this.httpClient.get<ReminderServiceResponse>(`reminder`, {params: params} );
@@ -54,14 +40,12 @@ export class ReminderService {
     }
 
     delete(id: string) {
-        return this.httpClient.delete<void>(`reminder/${id}`).subscribe(() => {
-            this.findAllReminders();
-        });
+        return this.httpClient.delete<void>(`reminder/${id}`);
     }
 
     findAllReminders() {
         this.findAll().subscribe(response => {
-            //this.reminders.set(response)
+            this.reminders.set(response)
         })
     }
 }

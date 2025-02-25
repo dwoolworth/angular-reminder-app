@@ -1,9 +1,10 @@
-import { Component, inject, OnInit, signal } from "@angular/core";
+import { Component, computed, inject, OnInit, signal } from "@angular/core";
 import { ReminderService } from "../../services/reminder.service.";
 import { ReminderItemComponent } from "../reminder-item/reminder-item.component";
 import { ReminderItemEditComponent } from "../reminder-item/reminder-item-edit.component";
 import { ReminderType, Reminder } from "../../models/reminder";
 import { DialogComponent } from "../dialog/dialog.component";
+import { NotificationService } from "../services/notification.service";
 
 @Component({
   selector: "app-reminder",
@@ -14,12 +15,32 @@ import { DialogComponent } from "../dialog/dialog.component";
 export class RemindersComponent implements OnInit {
   show = signal(<keyof typeof ReminderType>"PENDING");
 
+  showCreateReminder = false;
+  showCompletedReminders = signal(false);
+
   isDialogOpen = signal(false);
   selectedReminder = signal<Reminder | null>(null);
   reminderService = inject(ReminderService);
+  notificationService = inject(NotificationService);
+
+  filteredReminders = computed(() => {
+    const result = this.reminderService.reminders();
+    const viewCompleted = this.showCompletedReminders()
+
+    if (viewCompleted) {
+      return result.reminders;
+    }
+
+    return result.reminders.filter((reminder) => {
+        return reminder.status !== "COMPLETED";
+    });
+  })
+
+  hasReminders = computed(() => {
+    return  this.filteredReminders().length > 0;
+  })
 
   newReminder: Reminder = {
-    _id: '',
     description: '',
     dueDate: '',
     priority: false,
@@ -29,17 +50,15 @@ export class RemindersComponent implements OnInit {
   };
 
   saveNewReminder(reminder: Reminder) {
-
-    console.log(reminder);
     this.reminderService.create(reminder).subscribe(response => {
       this.reminderService.findAllReminders();
+      this.notificationService.show(`Reminder <span class="fw-bold px-1">${reminder.description}</span> has been created.`, {type: "success"});
+      this.showCreateReminder = false;
     });
   }
 
   showCompleted() {
-    this.show() === "PENDING"
-      ? this.show.set("COMPLETED")
-      : this.show.set("PENDING");
+    this.showCompletedReminders.set(!this.showCompletedReminders());
   }
 
   markCompleted(reminder: Reminder) {
@@ -49,6 +68,9 @@ export class RemindersComponent implements OnInit {
       status: "COMPLETED",
       priority: reminder.priority,
       dueDate: reminder.dueDate,
+    }).subscribe(() => {
+      this.reminderService.findAllReminders();
+      this.notificationService.show(`Reminder <span class="fw-bold px-1">${reminder.description}</span> has been completed.`, {type: "success"});
     });
   }
 
@@ -56,21 +78,27 @@ export class RemindersComponent implements OnInit {
     this.reminderService.update({
       _id: reminder._id,
       description: reminder.description,
-      status: "COMPLETED",
-      priority: reminder.priority,
+      status: reminder.status,
+      priority: !reminder.priority,
       dueDate: reminder.dueDate,
-    })
+    }).subscribe(() => {
+      this.reminderService.findAllReminders();
+    });
   }
 
-  handleDelete(reminder: Reminder) {
+  showDeleteReminderConfirmation(reminder: Reminder) {
     this.selectedReminder.set(reminder);
     this.isDialogOpen.set(true);
   }
 
-  handleSave() {
-    const id = this.selectedReminder()?._id;
-    if (id) {
-      this.reminderService.delete(id);
+  deleteReminder() {
+    const reminder = this.selectedReminder();
+    if (reminder?._id) {
+      this.reminderService.delete(reminder._id).subscribe(() => {
+        this.reminderService.findAllReminders();
+
+        this.notificationService.show(`Reminder <span class="fw-bold px-1">${reminder.description}</span> has been deleted.`, {type: "success"});
+      });
       this.closeDialog();
     }
   }

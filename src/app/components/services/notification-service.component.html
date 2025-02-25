@@ -14,8 +14,8 @@
       <i class="bi bi-info-circle"></i>
       }
     </div>
-    <div class="notification-content">
-      {{ service.message }}
+    <div class="notification-content" [innerHTML]="service.message" >
+
     </div>
   </div>
   }

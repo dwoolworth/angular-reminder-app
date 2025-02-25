@@ -5,12 +5,12 @@ import { ReminderService } from '../../services/reminder.service.';
 import { AppModule } from "../../app.module";
 import { EntryComponent } from '../entry/entry.component';
 import { FormsModule, NgModel } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'reminder-item-edit',
   templateUrl: './reminder-item-edit.component.html',
-  imports: [EntryComponent, FormsModule],
-
+  imports: [EntryComponent, FormsModule, CommonModule],
 })
 export class ReminderItemEditComponent {
 
