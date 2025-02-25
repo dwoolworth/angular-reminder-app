@@ -20,11 +20,11 @@ export type ReminderServiceResponse = {
 }
 
 export enum ReminderType {
- 'COMPLETED',
- 'PENDING' 
+ COMPLETED,
+ PENDING
 }
 
 export enum ReminderAction {
-  'PIN',
-  'MARK_COMPLETE'
+  PIN,
+  MARK_COMPLETE
 }

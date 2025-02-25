@@ -4,7 +4,7 @@ import { InspirationService } from "../../services/inspiration.service";
 @Component({
   selector: "app-inspiration",
   templateUrl: "./inspiration.component.html",
-  styleUrls: ["./inspiration.component.css"],
+  styleUrls: ["./inspiration.component.scss"],
 })
 export class InspirationComponent implements OnInit {
   inspirationalQuote: string = "";

@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 
 import { InspirationComponent } from "./inspiration.component";
+import { provideHttpClientTesting } from "@angular/common/http/testing";
+import { provideHttpClient } from "@angular/common/http";
 
 describe("InspirationComponent", () => {
   let component: InspirationComponent;
@@ -9,6 +11,7 @@ describe("InspirationComponent", () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [InspirationComponent],
+       providers: [provideHttpClient(), provideHttpClientTesting()]
     }).compileComponents();
 
     fixture = TestBed.createComponent(InspirationComponent);

@@ -7,7 +7,7 @@ import { WeatherServiceResponse } from "../models/weather";
 export class WeatherService {
   latitude = 44.5384;
   longitude = 18.6671;
-  weather = signal(<WeatherServiceResponse>{});
+  weather = signal<WeatherServiceResponse|null>(null);
   iconUrl = signal("");
   loaded = signal(false);
 

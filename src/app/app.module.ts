@@ -10,6 +10,7 @@ import { DialogServiceComponent } from "./components/services/dialog-service.com
 import { RemindersComponent } from "./components/reminder/reminder.component";
 import { ReminderItemComponent } from "./components/reminder-item/reminder-item.component";
 import { InspirationComponent } from "./components/inspiration/inspiration.component";
+import { provideHttpClientTesting } from "@angular/common/http/testing";
 
 const Components = [
   EntryComponent,
@@ -26,5 +27,6 @@ const Components = [
 @NgModule({
   imports: [CommonModule, ReactiveFormsModule, ...Components],
   exports: [CommonModule, ReactiveFormsModule, ...Components],
+  providers: [provideHttpClientTesting()],
 })
 export class AppModule {}

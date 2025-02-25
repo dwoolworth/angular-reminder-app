@@ -24,33 +24,35 @@ export class RemindersComponent implements OnInit {
   reminderService = inject(ReminderService);
 
   showCompleted(){
-    this.show() === 'PENDING' ? this.show.set('COMPLETED') : this.show.set('PENDING') 
-    this.reminderService.findAll(`status=${this.show()}`)
+    this.show() === 'PENDING' ? this.show.set('COMPLETED') : this.show.set('PENDING')
+    //this.reminderService.findAll(`status=${this.show()}`)
   }
 
-  markCompleted = (reminder: Reminder) => this.reminderService.update({
-    _id: reminder._id,
-    description: reminder.description,
-    status: 'COMPLETED',
-    priority: reminder.priority,
-    dueDate: reminder.dueDate
-  }, 'MARK_COMPLETE')
-    
-  togglePinReminder = (reminder: Reminder) => this.reminderService.update({
-    _id: reminder._id,
-    description: reminder.description,
-    status: reminder.status,
-    priority: !reminder.priority,
-    dueDate: reminder.dueDate
-  }, 'PIN')
+  markCompleted() { }
+  togglePinReminder() { }
 
-  handleDelete = (reminder: Reminder) => {
+  // markCompleted = (reminder: Reminder) => this.reminderService.update({
+  //   _id: reminder._id,
+  //   description: reminder.description,
+  //   status: 'COMPLETED',
+  //   priority: reminder.priority,
+  //   dueDate: reminder.dueDate
+  // }, 'MARK_COMPLETE')
+
+  // togglePinReminder = (reminder: Reminder) => this.reminderService.update({
+  //   _id: reminder._id,
+  //   description: reminder.description,
+  //   status: reminder.status,
+  //   priority: !reminder.priority,
+  //   dueDate: reminder.dueDate
+  // }, 'PIN')
+
+  handleDelete (reminder: Reminder){
     this.selectedReminder.set(reminder)
-    
     this.isDialogOpen.set(true)
   }
 
-  handleSave = () => {
+  handleSave() {
     const id = this.selectedReminder()?._id
     if(id) {
       this.reminderService.delete(id)
@@ -64,7 +66,7 @@ export class RemindersComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.reminderService.findAll();
+    this.reminderService.findAllReminders();
   }
 
 }

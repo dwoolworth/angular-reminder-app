@@ -3,24 +3,57 @@
     <h2 class="p-0 m-0">Users</h2>
   </div>
   <div class="ms-auto">
-    <button type="button" class="btn btn-primary me-2" (click)="showAddUserDialog()" >Create New</button>
+    <button
+      type="button"
+      class="btn btn-primary me-2"
+      (click)="showAddUserDialog()"
+    >
+      Create New
+    </button>
   </div>
 </div>
 
-<app-dialog [(open)]="dialogOpen" (saveAction)="saveUser()" [title]="dialogTitle">
-{{editUserId}}
-
+<app-dialog
+  [(open)]="dialogOpen"
+  (saveAction)="saveUser()"
+  [title]="dialogTitle"
+>
   <form [formGroup]="userForm">
-
-    <app-entry formControlName="firstName" class="pb-3" label="First Name" [errorMessage]="getErrorMessage(userForm.controls.firstName)" ></app-entry>
-    <app-entry formControlName="lastName" class="pb-3" label="Last Name" [errorMessage]="getErrorMessage(userForm.controls.lastName)"></app-entry>
-    <app-entry formControlName="email" class="pb-3" label="Email" type="email" [errorMessage]="getErrorMessage(userForm.controls.email)"></app-entry>
-    <app-entry formControlName="phoneNumber" class="pb-3" label="Phone Number" [errorMessage]="getErrorMessage(userForm.controls.phoneNumber)"></app-entry>
-    <app-entry formControlName="password" class="pb-3" label="Password" type="password" [errorMessage]="getErrorMessage(userForm.controls.password)"></app-entry>
+    <app-entry
+      formControlName="firstName"
+      class="pb-3"
+      label="First Name"
+      [errorMessage]="getErrorMessage(userForm.controls.firstName)"
+    ></app-entry>
+    <app-entry
+      formControlName="lastName"
+      class="pb-3"
+      label="Last Name"
+      [errorMessage]="getErrorMessage(userForm.controls.lastName)"
+    ></app-entry>
+    <app-entry
+      formControlName="email"
+      class="pb-3"
+      label="Email"
+      type="email"
+      [errorMessage]="getErrorMessage(userForm.controls.email)"
+    ></app-entry>
+    <app-entry
+      formControlName="phoneNumber"
+      class="pb-3"
+      label="Phone Number"
+      [errorMessage]="getErrorMessage(userForm.controls.phoneNumber)"
+    ></app-entry>
+    <app-entry
+      formControlName="password"
+      class="pb-3"
+      label="Password"
+      type="password"
+      [errorMessage]="getErrorMessage(userForm.controls.password)"
+    ></app-entry>
     <app-checkbox formControlName="roleAdmin" label="Admin"></app-checkbox>
   </form>
 </app-dialog>
-
 
 <table class="table table-striped">
   <thead>
@@ -50,9 +83,12 @@
       <td>
         <div class="d-flex">
           <div class="ms-auto">
-            <button  type="button" class="btn btn-sm btn-secondary"
+            <button
+              type="button"
+              class="btn btn-sm btn-secondary"
               (click)="showEditUserDialog(user)"
-            >Edit
+            >
+              Edit
             </button>
           </div>
         </div>
