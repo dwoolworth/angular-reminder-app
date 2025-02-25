@@ -1,6 +1,7 @@
 
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { Note, Reminder} from '../../models/reminder';
+import { ReminderService } from '../../services/reminder.service.';
 
 @Component({
   selector: 'reminder-item',
@@ -8,32 +9,27 @@ import { Note, Reminder} from '../../models/reminder';
 })
 
 export class ReminderItemComponent {
-    @Input() overDue: boolean = false
-    @Input() dueDate = ""
-    @Input() item: Reminder = {} as Reminder
-    @Input() description = ""
-    @Input() priority = false
-    @Input() notes: Note[] = []
-    @Input() markCompleted = (reminder: Reminder) => {}
-    @Input() togglePinReminder = (reminder: Reminder) => {}
 
-    @Output() deleteAction = new EventEmitter<void>()
+    reminderService = inject(ReminderService);
 
-    triggerAction(reminder: Reminder){
-      if(this.markCompleted) {
-        this.markCompleted(reminder)
-      }
+    @Input() item!: Reminder
+    @Output() markCompleted = new EventEmitter<Reminder>();
+    @Output() togglePinReminder = new EventEmitter<Reminder>();
+    @Output() deleteReminder = new EventEmitter<Reminder>()
 
-      if(this.togglePinReminder) {
-        this.togglePinReminder(reminder)
-      }
+
+    isOverDue() {
+      return this.reminderService.isOverdue(this.item)
     }
 
-    deleteReminder(){
-      this.deleteAction.emit()
+    isCompleted() {
+      return this.item.status === 'COMPLETED'
     }
 
-    label(){
-      return this.overDue ? 'Over Due' : this.item.status === 'COMPLETED' ? 'Completed' : 'To Do'
+    status(){
+      if (this.isCompleted()) {
+        return "Completed";
+      }
+      return  this.isOverDue() ? 'Over Due' : 'To Do'
     }
 }

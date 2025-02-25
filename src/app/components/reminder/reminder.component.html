@@ -7,9 +7,11 @@
   [saveClass]="'bg-danger text-light'"
 >
   Are you sure you want to delete
-  <strong>{{ selectedReminder()?.description }}</strong
-  >. reminder?
+  <b>{{ selectedReminder()?.description }}</b>.
+  reminder?
 </app-dialog>
+
+
 
 <div class="d-flex justify-content-between">
   <h3 class="p-0 m-0">Reminders: {{ reminderService.reminders().total }}</h3>
@@ -26,17 +28,15 @@
 </div>
 
 <div class="py-2">
+
+  <reminder-item-edit [item]="newReminder" (saveReminder)="saveNewReminder($event)" ></reminder-item-edit>
+
   @if(reminderService.hasReminders()) { @for (item of
   reminderService.reminders().reminders; track item._id) {
   <reminder-item
-    [dueDate]="reminderService.formatDate(item.dueDate)"
-    [overDue]="reminderService.isOverdue(item)"
-    [description]="item.description"
-    [priority]="item.priority"
-    [notes]="item.notes"
     [item]="item"
-    [markCompleted]="markCompleted"
-    [togglePinReminder]="togglePinReminder"
+    (markCompleted)="markCompleted(item)"
+    (togglePinReminder)="togglePinReminder(item)"
     (deleteAction)="handleDelete(item)"
   >
   </reminder-item>

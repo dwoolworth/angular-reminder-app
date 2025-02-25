@@ -3,6 +3,10 @@ import { computed, Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Reminder, ReminderAction, ReminderServiceResponse } from '../models/reminder';
 
+export interface ReminderQueryParams {
+
+}
+
 @Injectable({providedIn: 'root'})
 export class ReminderService {
 
@@ -45,7 +49,7 @@ export class ReminderService {
         return this.httpClient.post<Reminder>(`reminder`, reminder);
     }
 
-    update(reminder: Reminder) {
+    update(reminder: Partial<Reminder>) {
         return this.httpClient.put<Reminder>(`reminder/${reminder._id}`, reminder);
     }
 

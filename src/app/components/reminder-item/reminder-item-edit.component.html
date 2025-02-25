@@ -1,0 +1,38 @@
+<div
+  class="card my-3"
+  [class.border-danger]="isOverDue()"
+  [class.border-success]="isCompleted()"
+>
+  <div
+    class="card-header d-flex justify-content-between align-items-center bg-ph-card-header"
+  >
+    <div>
+      <button class="btn px-1">
+        @if(item.priority) {
+        <img src="/icons/icon1.svg" />
+        } @else {
+        <img src="/icons/icon2.svg" />
+        }
+      </button>
+      <span class="mx-1" style="vertical-align: middle">{{
+        item.dueDate
+      }}</span>
+      <span class="badge ms-2">
+        {{ status() }}
+      </span>
+    </div>
+    <div>
+      <button class="btn btn-secondary btn-sm me-2 " (click)="deleteReminder.emit(item)">
+        Discard
+      </button>
+
+      <button class="btn btn-primary btn-sm " (click)="saveReminder.emit(item)">
+        Save
+      </button>
+    </div>
+  </div>
+  <div class="card-body">
+    <app-entry type="date" label="Due Date" [(ngModel)]="item.dueDate" ></app-entry>
+    <app-entry type="text" label="Reminder" [(ngModel)]="item.description" ></app-entry>
+  </div>
+</div>
