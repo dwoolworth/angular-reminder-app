@@ -25,34 +25,46 @@ export class RemindersComponent implements OnInit {
 
   filteredReminders = computed(() => {
     const result = this.reminderService.reminders();
-    const viewCompleted = this.showCompletedReminders()
+    const viewCompleted = this.showCompletedReminders();
 
     if (viewCompleted) {
       return result.reminders;
     }
 
     return result.reminders.filter((reminder) => {
-        return reminder.status !== "COMPLETED";
+      return reminder.status !== "COMPLETED";
     });
-  })
+  });
 
   hasReminders = computed(() => {
-    return  this.filteredReminders().length > 0;
-  })
+    return this.filteredReminders().length > 0;
+  });
 
-  newReminder: Reminder = {
-    description: '',
-    dueDate: '',
+  defaultReminder: Reminder = {
+    description: "",
+    dueDate: "",
     priority: false,
-    status: 'PENDING',
-    user: '',
-    notes: []
+    status: "PENDING",
+    user: "",
+    notes: [],
   };
 
+  newReminder: Reminder = {
+    ...this.defaultReminder,
+  };
+
+  showCreateReminderForm() {
+    this.newReminder = { ...this.defaultReminder };
+    this.showCreateReminder = true;
+  }
+
   saveNewReminder(reminder: Reminder) {
-    this.reminderService.create(reminder).subscribe(response => {
+    this.reminderService.create(reminder).subscribe((response) => {
       this.reminderService.findAllReminders();
-      this.notificationService.show(`Reminder <span class="fw-bold px-1">${reminder.description}</span> has been created.`, {type: "success"});
+      this.notificationService.show(
+        `Reminder <span class="fw-bold px-1">${reminder.description}</span> has been created.`,
+        { type: "success" }
+      );
       this.showCreateReminder = false;
     });
   }
@@ -62,28 +74,35 @@ export class RemindersComponent implements OnInit {
   }
 
   markCompleted(reminder: Reminder) {
-    this.reminderService.update({
-      _id: reminder._id,
-      description: reminder.description,
-      status: "COMPLETED",
-      priority: reminder.priority,
-      dueDate: reminder.dueDate,
-    }).subscribe(() => {
-      this.reminderService.findAllReminders();
-      this.notificationService.show(`Reminder <span class="fw-bold px-1">${reminder.description}</span> has been completed.`, {type: "success"});
-    });
+    this.reminderService
+      .update({
+        _id: reminder._id,
+        description: reminder.description,
+        status: "COMPLETED",
+        priority: reminder.priority,
+        dueDate: reminder.dueDate,
+      })
+      .subscribe(() => {
+        this.reminderService.findAllReminders();
+        this.notificationService.show(
+          `Reminder <span class="fw-bold px-1">${reminder.description}</span> has been completed.`,
+          { type: "success" }
+        );
+      });
   }
 
   togglePinReminder(reminder: Reminder) {
-    this.reminderService.update({
-      _id: reminder._id,
-      description: reminder.description,
-      status: reminder.status,
-      priority: !reminder.priority,
-      dueDate: reminder.dueDate,
-    }).subscribe(() => {
-      this.reminderService.findAllReminders();
-    });
+    this.reminderService
+      .update({
+        _id: reminder._id,
+        description: reminder.description,
+        status: reminder.status,
+        priority: !reminder.priority,
+        dueDate: reminder.dueDate,
+      })
+      .subscribe(() => {
+        this.reminderService.findAllReminders();
+      });
   }
 
   showDeleteReminderConfirmation(reminder: Reminder) {
@@ -97,7 +116,10 @@ export class RemindersComponent implements OnInit {
       this.reminderService.delete(reminder._id).subscribe(() => {
         this.reminderService.findAllReminders();
 
-        this.notificationService.show(`Reminder <span class="fw-bold px-1">${reminder.description}</span> has been deleted.`, {type: "success"});
+        this.notificationService.show(
+          `Reminder <span class="fw-bold px-1">${reminder.description}</span> has been deleted.`,
+          { type: "success" }
+        );
       });
       this.closeDialog();
     }
