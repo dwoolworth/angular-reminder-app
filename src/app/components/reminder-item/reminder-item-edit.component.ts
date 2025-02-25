@@ -15,6 +15,7 @@ import { CommonModule } from '@angular/common';
 export class ReminderItemEditComponent {
 
     reminderService = inject(ReminderService);
+    note: string = '';
 
     @Input() item!: Reminder
     @Output() saveReminder = new EventEmitter<Reminder>();
@@ -22,11 +23,16 @@ export class ReminderItemEditComponent {
 
 
     isOverDue() {
-      return false;// this.reminderService.isOverdue(this.item)
+      return this.reminderService.isOverdue(this.item)
     }
 
     isCompleted() {
       return this.item.status === 'COMPLETED'
+    }
+
+    addNote() {
+      // this.item.notes.push({});
+      this.note = '';
     }
 
     status(){

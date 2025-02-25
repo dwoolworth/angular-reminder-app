@@ -17,6 +17,8 @@ export class ReminderItemComponent {
     @Output() markCompleted = new EventEmitter<Reminder>();
     @Output() togglePinReminder = new EventEmitter<Reminder>();
     @Output() deleteReminder = new EventEmitter<Reminder>()
+    @Output() editReminder = new EventEmitter<Reminder>()
+
 
 
     isOverDue() {

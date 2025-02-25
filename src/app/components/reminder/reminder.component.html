@@ -39,13 +39,23 @@
     (saveReminder)="saveNewReminder($event)"
   ></reminder-item-edit>
   } @if(hasReminders()) { @for (item of filteredReminders(); track item._id) {
+
+    @if(editReminderRef === item) {
+      <reminder-item-edit
+      [item]="item"
+      (deleteReminder)="showCreateReminder = false"
+      (saveReminder)="updateReminder($event)"
+    ></reminder-item-edit>
+    } @else {
   <reminder-item
     [item]="item"
     (markCompleted)="markCompleted(item)"
+    (editReminder)="showEditReminderForm(item)"
     (togglePinReminder)="togglePinReminder(item)"
     (deleteReminder)="showDeleteReminderConfirmation(item)"
   >
   </reminder-item>
+}
 
   } } @else {
   <div class="alert alert-info py-2 px-3 my-2" role="alert">

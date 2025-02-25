@@ -31,13 +31,12 @@
         <img src="/icons/icon3.svg" />
       </button>
 
-      <button class="btn px-0">
+      <button class="btn px-0" (click)="editReminder.emit(item)">
         <img src="/icons/icon4.svg" />
       </button>
 
       <button
         class="btn px-1"
-        [class.disabled]="isCompleted()"
         [class.border-0]="isCompleted()"
         (click)="markCompleted.emit(item)"
       >

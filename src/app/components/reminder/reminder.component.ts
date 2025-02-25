@@ -16,12 +16,14 @@ export class RemindersComponent implements OnInit {
   show = signal(<keyof typeof ReminderType>"PENDING");
 
   showCreateReminder = false;
-  showCompletedReminders = signal(false);
+  showCompletedReminders = signal(true);
 
   isDialogOpen = signal(false);
   selectedReminder = signal<Reminder | null>(null);
   reminderService = inject(ReminderService);
   notificationService = inject(NotificationService);
+
+  editReminderRef: Reminder | null = null;
 
   filteredReminders = computed(() => {
     const result = this.reminderService.reminders();
@@ -52,6 +54,9 @@ export class RemindersComponent implements OnInit {
   newReminder: Reminder = {
     ...this.defaultReminder,
   };
+  showEditReminderForm(reminder: Reminder) {
+    this.editReminderRef = reminder;
+  }
 
   showCreateReminderForm() {
     this.newReminder = { ...this.defaultReminder };
@@ -74,21 +79,44 @@ export class RemindersComponent implements OnInit {
   }
 
   markCompleted(reminder: Reminder) {
+
+    const status = reminder.status === "PENDING" ? "COMPLETED" : "PENDING"
+
     this.reminderService
       .update({
         _id: reminder._id,
         description: reminder.description,
-        status: "COMPLETED",
+        status: status,
         priority: reminder.priority,
         dueDate: reminder.dueDate,
       })
       .subscribe(() => {
         this.reminderService.findAllReminders();
-        this.notificationService.show(
-          `Reminder <span class="fw-bold px-1">${reminder.description}</span> has been completed.`,
-          { type: "success" }
-        );
+
+        if (status == "COMPLETED") {
+          this.notificationService.show(
+            `Reminder <span class="fw-bold px-1">${reminder.description}</span> has been completed.`,
+            { type: "success" }
+          );
+        } else {
+          this.notificationService.show(
+            `Reminder <span class="fw-bold px-1">${reminder.description}</span> has been marked as pending.`,
+            { type: "info" }
+          );
+        }
       });
+  }
+
+  updateReminder(reminder: Reminder) {
+    this.reminderService.update(reminder).subscribe(() => {
+      this.editReminderRef = null;
+      this.notificationService.show(
+        `Reminder <span class="fw-bold px-1">${reminder.description}</span> has been updated.`,
+        { type: "success" }
+      );
+    });
+
+
   }
 
   togglePinReminder(reminder: Reminder) {
