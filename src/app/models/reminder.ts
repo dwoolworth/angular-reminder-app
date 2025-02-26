@@ -11,7 +11,7 @@ export interface Reminder {
 export type Note = {
   reminder: string,
   title: string,
-  _id: string
+  _id?: string
 }
 
 export type ReminderServiceResponse = {

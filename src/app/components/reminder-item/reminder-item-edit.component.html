@@ -32,9 +32,23 @@
     </div>
   </div>
   <div class="card-body">
-    <app-entry type="date" label="Due Date"  [(ngModel)]="item.dueDate" ></app-entry>
+    <app-entry type="date" label="Due Date"  [(ngModel)]="dueDate" ></app-entry>
     <app-entry type="text" label="Reminder" [(ngModel)]="item.description" ></app-entry>
 
+
+    <ul class="list-group mb-4" >
+      @for(note of item.notes; track note._id) {
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+          {{ note.title }}
+          <button class="btn btn-sm btn-primary" (click)="removeNote(note)" >Remove</button>
+        </li>
+      }
+    </ul>
+
+    @if (editNotes) {
+      <app-entry type="text" label="Note" [(ngModel)]="note" ></app-entry>
+      <button class="btn btn-sm btn-primary" (click)="addNote()" >Add Note</button>
+    }
 
   </div>
 </div>

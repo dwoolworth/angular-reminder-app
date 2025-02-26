@@ -43,7 +43,8 @@
     @if(editReminderRef === item) {
       <reminder-item-edit
       [item]="item"
-      (deleteReminder)="showCreateReminder = false"
+      [editNotes]="true"
+      (deleteReminder)="editReminderRef = null"
       (saveReminder)="updateReminder($event)"
     ></reminder-item-edit>
     } @else {
