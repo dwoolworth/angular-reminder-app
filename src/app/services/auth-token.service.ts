@@ -10,6 +10,13 @@ export class AuthTokenService {
     return localStorage.getItem("AuthToken");
   }
 
+  getTokenData() {
+    if (this.isTokenValid()) {
+        return this.decodeJWT(this.getToken());
+    }
+    return null;
+  }
+
   removeToken() {
     localStorage.removeItem("AuthToken");
   }
@@ -18,8 +25,6 @@ export class AuthTokenService {
     const token = this.getToken();
     const decodedToken = this.decodeJWT(token);
 
-    console.log(decodedToken, new Date().getTime());
-
     if (decodedToken && decodedToken.payload) {
       const exp = decodedToken.payload.exp * 1000;
       const now = new Date().getTime();
@@ -27,8 +32,10 @@ export class AuthTokenService {
 
       return isValid;
     }
-    return true;
+    return false;
   }
+
+
 
   isExpired() {
     return !this.isTokenValid();

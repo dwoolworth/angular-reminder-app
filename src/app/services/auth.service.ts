@@ -18,8 +18,6 @@ export interface CurrentUser {
 @Injectable({ providedIn: "root" })
 export class AuthService {
 
-  #authenticated = false;
-
   constructor(
     private httpClient: HttpClient,
     private userService: UserService,
@@ -30,7 +28,6 @@ export class AuthService {
 
   logout() {
     this.authTokenService.removeToken();
-    this.#authenticated = false;
   }
 
   logIn(email: string, password: string): Observable<LoginResponse> {
@@ -51,14 +48,11 @@ export class AuthService {
             this.authTokenService.saveToken(data.access_token);
             result.refreshToken = this.cookieService.getCookie('refreshToken');
             result.accessToken = data.access_token;
-
-            this.#authenticated = true;
             observer.next(result);
             observer.complete();
           },
           error: (error) => {
             result.error = error;
-            this.#authenticated = false;
             console.log(error)
             observer.next(result);
             observer.complete();
@@ -68,11 +62,6 @@ export class AuthService {
   }
 
   isAuthenticated() {
-
-    if (!this.#authenticated) {
-      this.#authenticated = !this.authTokenService.isExpired()
-    }
-
-    return this.#authenticated;
+    return this.authTokenService.isTokenValid()
   }
 }

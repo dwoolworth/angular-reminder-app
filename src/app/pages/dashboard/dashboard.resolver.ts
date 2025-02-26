@@ -12,6 +12,6 @@ export class DashboardResolver implements Resolve<any> {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ) {
-    return this.service.getWeather();
+    return this.service.getWeather().subscribe();
   }
 }
